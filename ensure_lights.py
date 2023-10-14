@@ -13,9 +13,9 @@ flower_phase = False
 def should_lights_be_on(begin_time, end_time):
     check_time = datetime.now().time()
     if begin_time < end_time:
-        return check_time >= begin_time and check_time <= end_time
-    else: # crosses midnight
-        return check_time >= begin_time or check_time <= end_time
+        return begin_time <= check_time <= end_time
+    # crosses midnight
+    return begin_time <= check_time or check_time <= end_time
 
 self.message += ("Ensuring the Lights are on schedule!\n\n")
 self.logger.debug("Ensuring the Lights are on schedule!")
