@@ -1,12 +1,12 @@
 from datetime import datetime, time
 
 day_start = time(6,00)
-day_end = time(23,59)
+day_end = time(00,00)
 
 far_red_morning_start = time(6,00)
 far_red_morning_end = time(6,15)
 far_red_evening_start = time(23,45)
-far_red_evening_end = time(23,59)
+far_red_evening_end = time(0,00)
 
 flower_phase = False
 
@@ -26,8 +26,8 @@ far_red_led_state = self.condition("11cfe4d1")
 # If returns True it's daytime
 if should_lights_be_on(day_start, day_end) is True:
     if veg_led_state == "off":
-        self.message += ("Oh, oh. It's day time, but the VEG channel is off!\nActivating VEG channel.")
-        self.logger.info("Oh, oh. It's day time, but the VEG channel is off!")
+        self.message += ("It's day time, but the VEG channel is off!\nActivating VEG channel.")
+        self.logger.info("It's day time, but the VEG channel is off!")
         self.logger.info("Activating VEG channel.")
         self.run_action("d64908a0")
     elif veg_led_state == "on":
@@ -38,8 +38,8 @@ if should_lights_be_on(day_start, day_end) is True:
         self.logger.debug("It's night-time and the VEG channel is OFF, as it should be.")
     if bloom_led_state == "off":
         if flower_phase is True:
-            self.message += ("Oh, oh. It's daytime and we're in flower, but the BLOOM channel is off!\nActivating BLOOM channel.")
-            self.logger.info("Oh, oh. It's daytime and we're in flower, but the BLOOM channel is off!")
+            self.message += ("It's daytime and we're in flower, but the BLOOM channel is off!\nActivating BLOOM channel.")
+            self.logger.info("It's daytime and we're in flower, but the BLOOM channel is off!")
             self.logger.info("Activating BLOOM channel.")
             self.run_action("f488af4f")
         else:
@@ -47,8 +47,8 @@ if should_lights_be_on(day_start, day_end) is True:
             self.logger.debug("We're not in flower and the BLOOM channel is OFF, as it should be.")
     elif bloom_led_state == "on":
         if flower_phase is False:
-            self.message += ("Oh, oh. We're not in flower. but the BLOOM channel is on!\nDeactivating BLOOM channel.")
-            self.logger.info("Oh, oh. We're not in flower. but the BLOOM channel is on!")
+            self.message += ("We're not in flower. but the BLOOM channel is on!\nDeactivating BLOOM channel.")
+            self.logger.info("We're not in flower. but the BLOOM channel is on!")
             self.logger.info("Deactivating BLOOM channel.")
             self.run_action("74266e46")
         else:
@@ -58,18 +58,18 @@ if should_lights_be_on(day_start, day_end) is True:
         self.message += ("It's night-time and the BLOOM channel is OFF, as it should be.\n")
         self.logger.debug("It's night-time and the BLOOM channel is OFF, as it should be.")
     if far_red_led_state == "off" and should_lights_be_on(far_red_morning_start, far_red_morning_end) is True:
-        self.message += ("Oh, oh. It's sunrise, but the FAR RED channel is off!\nActivating FAR RED channel.")
-        self.logger.info("Oh, oh. It's sunrise, but the FAR RED channel is off!")
+        self.message += ("It's sunrise, but the FAR RED channel is off!\nActivating FAR RED channel.")
+        self.logger.info("It's sunrise, but the FAR RED channel is off!")
         self.logger.info("Activating FAR RED channel.")
         self.run_action("3bd75ea9")
     elif far_red_led_state == "off" and should_lights_be_on(far_red_evening_start, far_red_evening_end) is True:
-        self.message += ("Oh, oh. It's sunset, but the FAR RED channel is off!\nActivating FAR RED channel")
-        self.logger.info("Oh, oh. It's sunset, but the FAR RED channel is off!")
+        self.message += ("It's sunset, but the FAR RED channel is off!\nActivating FAR RED channel")
+        self.logger.info("It's sunset, but the FAR RED channel is off!")
         self.logger.info("Activating FAR RED channel.")
         self.run_action("3bd75ea9")
-    elif far_red_led_state == "on" and (should_lights_be_on(far_red_evening_start, far_red_evening_end) is False or should_lights_be_on(far_red_morning_start, far_red_morning_end) is False):
-        self.message += ("Oh, oh. It's neither sunrise nor sunset and the FAR RED channel is ON!\nDeactivating FAR RED channel.")
-        self.logger.info("Oh, oh. It's neither sunrise nor sunset and the FAR RED channel is ON!")
+    elif far_red_led_state == "on" and should_lights_be_on(far_red_evening_start, far_red_evening_end) is False and should_lights_be_on(far_red_morning_start, far_red_morning_end) is False:
+        self.message += ("It's neither sunrise nor sunset and the FAR RED channel is ON!\nDeactivating FAR RED channel.")
+        self.logger.info("It's neither sunrise nor sunset and the FAR RED channel is ON!")
         self.logger.info("Deactivating FAR RED channel.")
         self.run_action("ca0a7279")
     else:
